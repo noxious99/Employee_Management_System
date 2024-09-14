@@ -79,18 +79,22 @@ route.get("/", async (req, res) => {
   try {
     const page = parseInt(req.query.page) || 0;
     const limit = parseInt(req.query.limit) || 5;
-    const nameKey = req.query.nameKey || "";
     const sortBy = req.query.sortBy || "createdAt";
     const order = req.query.order === "desc" ? -1 : 1;
+    const nameKey = req.query.nameKey || "";
+    const emailKey = req.query.emailKey || "";
+    const mobileKey = req.query.mobileKey || "";
+
+    const searchQuery = {
+      name: { $regex: `^${nameKey}`, $options: "i" },
+      email: { $regex: `^${emailKey}`, $options: "i" },
+      mobile: { $regex: `^${mobileKey}`, $options: "i" },
+    };
 
     const skip = page * limit;
-    const totalEmployeeCount = await Employee.countDocuments({
-      name: { $regex: `^${nameKey}`, $options: "i" },
-    });
+    const totalEmployeeCount = await Employee.countDocuments(searchQuery);
 
-    const allEmployee = await Employee.find({
-      name: { $regex: `^${nameKey}`, $options: "i" },
-    })
+    const allEmployee = await Employee.find(searchQuery)
       .sort({ [sortBy]: order })
       .skip(skip)
       .limit(limit);
@@ -129,7 +133,7 @@ route.delete("/:id", async (req, res) => {
     if (!deletedEmployee) {
       return res.status(404).json({ err: { mssg: "Employee Not Found" } });
     }
-    res.status(200).json({ message: "Employee Deleted Successfully" });
+    res.status(200).json(deletedEmployee);
   } catch (error) {
     res.status(400).json({ err: error.message });
   }

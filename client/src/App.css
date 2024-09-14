@@ -1,0 +1,140 @@
+@import url('https://fonts.googleapis.com/css2?family=Inria+Sans:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&display=swap');
+
+body{
+  font-family: Inria Sans;
+}
+
+.container {
+  display: flex;
+}
+
+.coloumn_one {
+  width: 15vw;
+}
+
+.coloumn_two {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.search {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  margin: 15px;
+  padding: 10px 30px 10px 30px;
+  border: 1px solid black;
+  border-radius: 15px;
+}
+
+.search > input {
+  margin: 15px;
+  padding: 10px 10px 10px 20px;
+  border-radius: 3px;
+  border: 1px solid black;
+}
+
+.search > button {
+  border: none;
+  background-color: transparent;
+}
+.addForm {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  width: 500px;
+  margin: 20px auto;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  background-color: #ffffff;
+}
+
+.addForm > form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 400px;
+}
+
+.addForm > form > input {
+  margin-bottom: 15px;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 16px;
+  width: 100%;
+  color: black;
+}
+
+input:focus {
+  border-color: #007bff;
+  outline: none;
+}
+
+button.buttonBasic {
+  width: 70%;
+  padding: 10px 20px;
+  margin: 10px 0px 10px 0px;
+  border: none; 
+  border-radius: 4px;
+  background-color: #007bff;
+  color: white; 
+  font-size: 16px;
+  cursor: pointer; 
+  transition: background-color 0.3s ease;
+  align-self: center;
+}
+
+button.buttonBasic:hover {
+  background-color: #0056b3;
+}
+
+button.buttonBasic:focus {
+  outline: none;
+}
+
+.react-datepicker-wrapper {
+  width: 100%;
+  align-self: flex-start;
+}
+
+.react-datepicker__input-container input {
+  width: 100%;
+  padding: 12px;
+  box-sizing: border-box;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  align-self: center;
+}
+
+h2 {
+  text-align: center;
+  color: #4CAF50;
+  margin-bottom: 20px;
+  font-size: 24px;
+}
+
+.buttonIcon {
+  background-color: transparent;
+  border: none;
+  text-transform: none;
+  color: black;
+}
+
+.pagination {
+  padding: 10px;
+  margin: 10px;
+}
+
+.footer {
+  display: flex;
+  justify-content: flex-end;
+  width: 100%;
+  background-color: grey;
+  height: 80px;
+  padding: 10px 70px 10px 20px;
+  box-sizing: border-box;
+}
