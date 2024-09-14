@@ -12,6 +12,7 @@ export const AddEmployee = () => {
   const [mobile, setMobile] = useState("");
   const [photo, setPhoto] = useState(null);
   const [startDate, setStartDate] = useState(new Date());
+  const [isUpdated, setIsUpdated] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -34,11 +35,13 @@ export const AddEmployee = () => {
         }
       );
       console.log("Employee added successfully:", response.data);
-      // Clear form after successful submission
+      
       setName("");
       setEmail("");
       setMobile("");
       setPhoto(null);
+      setIsUpdated(true);
+      setTimeout(() => setIsUpdated(false), 3000);
     } catch (error) {
       console.error("Error adding employee:", error);
     }
@@ -94,6 +97,11 @@ export const AddEmployee = () => {
             />
             </div>
             <button className="buttonBasic">Add Employee</button>
+            {isUpdated && (
+              <p style={{ color: "green", marginTop: "10px" }}>
+                Employee updated successfully!
+              </p>
+            )}
           </form>
         </div>
       </div>

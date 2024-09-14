@@ -4,22 +4,25 @@ import { useParams } from "react-router-dom";
 import DatePicker from "react-datepicker";
 import { getEmployee, updateEmployee } from "../actions/EmployeeAction";
 import { Navbar } from "../components/Navbar";
+
+
 import FaceRetouchingNaturalIcon from "@mui/icons-material/FaceRetouchingNatural";
-import EventNoteIcon from '@mui/icons-material/EventNote';
+import EventNoteIcon from "@mui/icons-material/EventNote";
 
 export const EditDetails = () => {
   const dispatch = useDispatch();
-  const { id } = useParams(); 
+  const { id } = useParams();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [mobile, setMobile] = useState("");
   const [startDate, setStartDate] = useState(new Date());
-
-  const employees = useSelector((state) => state.getData.allData || []);
+  const [isUpdated, setIsUpdated] = useState(false);
 
   useEffect(() => {
     dispatch(getEmployee());
   }, [dispatch]);
+
+  const employees = useSelector((state) => state.getData.allData || []);
 
   const employee = Array.isArray(employees)
     ? employees.find((user) => user._id === id)
@@ -34,7 +37,7 @@ export const EditDetails = () => {
       if (employee.dob) {
         const validDate = new Date(employee.dob);
         if (!isNaN(validDate)) {
-          setStartDate(validDate); 
+          setStartDate(validDate);
         }
       }
     }
@@ -42,16 +45,16 @@ export const EditDetails = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-  
     const employeeData = {
       name,
       email,
       mobile,
       dob: startDate.toISOString(),
     };
-  
     dispatch(updateEmployee(id, employeeData)).then(() => {
       dispatch(getEmployee(0, "createdAt", "asc", {}));
+      setIsUpdated(true); // Set success state to true after update
+      setTimeout(() => setIsUpdated(false), 3000);
     });
   };
 
@@ -106,6 +109,12 @@ export const EditDetails = () => {
             <button type="submit" className="buttonBasic">
               Update Employee
             </button>
+
+            {isUpdated && (
+              <p style={{ color: "green", marginTop: "10px" }}>
+                Employee updated successfully!
+              </p>
+            )}
           </form>
         </div>
       </div>

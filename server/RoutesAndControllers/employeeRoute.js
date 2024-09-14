@@ -1,6 +1,5 @@
 const express = require("express");
 const Employee = require("../Schema/memberSchema");
-
 const cloudinary = require('../utils/cloudinary');
 const { upload } = require('../middleware/multerMiddleware');
 
@@ -84,12 +83,18 @@ route.get("/", async (req, res) => {
     const nameKey = req.query.nameKey || "";
     const emailKey = req.query.emailKey || "";
     const mobileKey = req.query.mobileKey || "";
+    ////
+    const dobKey = req.query.dobKey || "";
 
     const searchQuery = {
       name: { $regex: `^${nameKey}`, $options: "i" },
       email: { $regex: `^${emailKey}`, $options: "i" },
       mobile: { $regex: `^${mobileKey}`, $options: "i" },
     };
+    ///dob check
+    if (dobKey) {
+      searchQuery.dob = { $regex: `^${dobKey}`, $options: "i" };
+    }
 
     const skip = page * limit;
     const totalEmployeeCount = await Employee.countDocuments(searchQuery);

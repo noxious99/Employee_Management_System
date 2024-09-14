@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Navbar } from "../components/Navbar";
 import { deleteEmployee, getEmployee } from "../actions/EmployeeAction";
 import { Link } from "react-router-dom";
+import DatePicker from "react-datepicker";
 
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import EditNoteIcon from "@mui/icons-material/EditNote";
@@ -21,6 +22,10 @@ export const Home = () => {
   const [dobKey, setDobKey] = useState("");
   const [sortField, setSortField] = useState("createdAt");
   const [order, setOrder] = useState("asc");
+  const [startDate, setStartDate] = useState(new Date());
+
+  const [isPopupOpen, setIsPopupOpen] = useState(false);
+  const [employeeToDelete, setEmployeeToDelete] = useState(null);
 
   const dispatch = useDispatch();
 
@@ -62,11 +67,25 @@ export const Home = () => {
   };
 
   const handleDelete = (id) => {
-    dispatch(deleteEmployee(id));
+    setEmployeeToDelete(id);
+    setIsPopupOpen(true);
+  };
+
+  const confirmDelete = () => {
+    if (employeeToDelete) {
+      dispatch(deleteEmployee(employeeToDelete));
+      setIsPopupOpen(false);
+      setEmployeeToDelete(null);
+    }
+  };
+
+  const cancelDelete = () => {
+    setIsPopupOpen(false);
+    setEmployeeToDelete(null);
   };
 
   const handleSearch = () => {
-    setPage(0); // Reset to first page after search
+    setPage(0);
     dispatch(
       getEmployee(0, sortField, order, { nameKey, emailKey, mobileKey, dobKey })
     );
@@ -81,6 +100,11 @@ export const Home = () => {
           <Navbar />
         </div>
         <div className="coloumn_two">
+          <DeleteConfirmation
+            isOpen={isPopupOpen}
+            onConfirm={confirmDelete}
+            onCancel={cancelDelete}
+          />
           <div className="search">
             <input
               type="text"
@@ -90,10 +114,23 @@ export const Home = () => {
             />
             <input
               type="text"
-              placeholder="Date of Birth"
+              placeholder="D.o.B e.g. 1993-09-13"
               value={dobKey}
               onChange={(e) => setDobKey(e.target.value)}
             />
+
+            {/* <div>
+              <DatePicker
+                selected={startDate}
+                onChange={(date) => {
+                  setDobKey(date); // Update dobKey
+                  setStartDate(date); // Update startDate
+                }}
+                placeholderText="Date of Birth"
+                wrapperClassName="datePicker"
+                dateFormat="dd/MM/yyyy"
+              />
+            </div> */}
             <input
               type="text"
               placeholder="email"
@@ -269,21 +306,44 @@ export const Home = () => {
           </div>
 
           <div className="pagination">
-            <Stack spacing={4}>
-              <Pagination
-                count={pageNum}
-                page={page + 1}
-                variant="outlined"
-                shape="rounded"
-                color="success"
-                onChange={handlePagination}
-              />
-            </Stack>
+            <div>
+              Showing{" "}
+              {(page + 1) * 5 > totalEmployees
+                ? totalEmployees
+                : (page + 1) * 5}{" "} out
+              of {totalEmployees} . . .{" "}
+            </div>
+            <div>
+              <Stack spacing={4}>
+                <Pagination
+                  count={pageNum}
+                  page={page + 1}
+                  variant="outlined"
+                  shape="rounded"
+                  color="success"
+                  onChange={handlePagination}
+                />
+              </Stack>
+            </div>
           </div>
         </div>
       </div>
       <div>
         <Footer />
+      </div>
+    </div>
+  );
+};
+
+const DeleteConfirmation = ({ isOpen, onConfirm, onCancel }) => {
+  if (!isOpen) return null;
+
+  return (
+    <div className="modalBackdrop">
+      <div className="modalContent">
+        <h2>Are you sure you want to delete this employee?</h2>
+        <button onClick={onConfirm}>Yes</button>
+        <button onClick={onCancel}>No</button>
       </div>
     </div>
   );

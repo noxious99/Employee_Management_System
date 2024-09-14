@@ -22,6 +22,7 @@ body{
   display: flex;
   flex-direction: row;
   justify-content: center;
+  align-items: center;
   margin: 15px;
   padding: 10px 30px 10px 30px;
   border: 1px solid black;
@@ -33,6 +34,7 @@ body{
   padding: 10px 10px 10px 20px;
   border-radius: 3px;
   border: 1px solid black;
+  width: auto;
 }
 
 .search > button {
@@ -50,6 +52,19 @@ body{
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   background-color: #ffffff;
 }
+
+.datePicker {
+  width: 200px;
+  padding: 5px;
+  font-size: 16px;
+  height: auto; /* Adjust as needed */
+  color: #0056b3;
+}
+
+.datePicker input {
+  height: 40px; /* Set the desired input height */
+}
+
 
 .addForm > form {
   display: flex;
@@ -125,6 +140,10 @@ h2 {
 }
 
 .pagination {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
   padding: 10px;
   margin: 10px;
 }
@@ -137,4 +156,23 @@ h2 {
   height: 80px;
   padding: 10px 70px 10px 20px;
   box-sizing: border-box;
+}
+
+.modalBackdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modalContent {
+  background-color: white;
+  padding: 20px;
+  border-radius: 10px;
+  text-align: center;
 }
